@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+ bool _isNumeric(String str) {
+    if(str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
+
 class MyPlanet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,15 +49,25 @@ class PlanetWieght extends StatefulWidget {
 }
 
 class _PlanetState extends State<PlanetWieght> {
+  String stringResult;
   int radioVlaueGroup = 0;
   double result=0.0;
-  String _currentPlanet = '';
+  String _currentPlanet ;
   void calcWieght(String s, double d) {
+    if (_isNumeric(s)){
     if(s.isNotEmpty){
       if (int.parse(s) > 0) 
           result = int.parse(s) * d;
+          stringResult=null;
     }
-    _currentPlanet='Please Enter Wieght';
+    
+  }
+  else {
+    result=0;
+    stringResult='Invalid input';
+   
+  }
+  
   }
   void onChangeText(String s){
     setState(() {
@@ -139,7 +156,9 @@ class _PlanetState extends State<PlanetWieght> {
           ),
           //Result Text
           new Text(
-              "Your Wieght on $_currentPlanet is ${result.toStringAsFixed(3)}"
+              stringResult==null?"Your Weight on planet $_currentPlanet is $result":stringResult,
+              textAlign: TextAlign.center,
+              
               )
         ],
       ),
